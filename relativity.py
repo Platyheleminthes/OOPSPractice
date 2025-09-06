@@ -10,6 +10,8 @@ class FourVector:
     def __init__(self , ct = 0 , r = [0,0,0]):
         self._r = np.array(r , dtype=float)
         self._ct = ct
+        if len(self._r)!=3:
+            raise Exception("FourVector parameter r has incorrect size")
         #print(f"Four Vector has been initialised with time and space components as : {self.ct , self.r}")
     def __repr__(self):
         return f"FourVector(ct = {self._ct} , r = ({self._r}))"
@@ -39,6 +41,21 @@ class FourVector:
         self._ct-=other._ct
         self._r-=other._r
         return self
+    def inner(self ,other):
+        return self._ct*other._ct - np.dot(self._r , other._r)
+    def magsquare(self):
+        return self.inner(other=self)
+    def boost(self , beta):
+        gamma = 1/np.sqrt(1-beta**2)
+        z_new = gamma*(self._r[2]-beta*self._ct)
+        ct_new = gamma*(self._ct - beta*self._r[2])
+        return FourVector(ct=ct_new , r =[self._r[0] , self._r[1] , z_new])
+    
+    
+
+
+#  ct' = gamma(ct-beta*x)
+    
 
     
 
