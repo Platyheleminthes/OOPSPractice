@@ -5,19 +5,26 @@ class Engine:
         print("Petrol engine starting...")
 
 class Car:
-    def __init__(self ,engine):
-        self.objeng = engine
+    def __init__(self ,engine , transmission):
+        self.engine = engine
+        self.transmission = transmission
     def start(self):
-        self.objeng.start()
-        print("Car started.") 
+        if self.transmission.gear!=0 and self.transmission.type == "manual":
+            raise RuntimeError("It is unsafe to start the car while in gear")
+        self.engine.start()
+        print("Car started.")
+    def acc_shift_up(self):
+        self.transmission.shift_up()
+    def acc_shift_down(self):
+        self.transmission.shift_down() 
 class Transmission:
     def __init__(self , type = "Not Specified" , ngears = 5):
         self.type = type
         self.ngears = ngears
         self.gear = 0
-    def type(self):
+    def acc_type(self):
         return self.type
-    def gear(self):
+    def acc_gear(self):
         return self.gear
     def shift_up(self):
         if self.gear ==5:
